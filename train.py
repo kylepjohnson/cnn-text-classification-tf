@@ -6,6 +6,7 @@ import os
 import time
 import datetime
 import data_helpers
+import sys
 from text_cnn import TextCNN
 from tensorflow.contrib import learn
 
@@ -56,8 +57,11 @@ y_shuffled = y[shuffle_indices]
 
 # Split train/test set
 # TODO: This is very crude, should use cross-validation
-x_train, x_dev = x_shuffled[:-1000], x_shuffled[-1000:]
-y_train, y_dev = y_shuffled[:-1000], y_shuffled[-1000:]
+#x_train, x_dev = x_shuffled[:-1000], x_shuffled[-1000:]
+#y_train, y_dev = y_shuffled[:-1000], y_shuffled[-1000:]
+x_train, x_dev = x_shuffled[:450], x_shuffled[450:]
+y_train, y_dev = y_shuffled[:450], y_shuffled[450:]
+
 print("Vocabulary Size: {:d}".format(len(vocab_processor.vocabulary_)))
 print("Train/Dev split: {:d}/{:d}".format(len(y_train), len(y_dev)))
 

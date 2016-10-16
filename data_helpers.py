@@ -1,4 +1,5 @@
 import numpy as np
+import os
 import re
 import itertools
 from collections import Counter
@@ -31,17 +32,23 @@ def load_data_and_labels():
     Returns split sentences and labels.
     """
     # Load data from files
-    positive_examples = list(open("./data/rt-polaritydata/rt-polarity.pos", "r").readlines())
-    positive_examples = [s.strip() for s in positive_examples]
-    negative_examples = list(open("./data/rt-polaritydata/rt-polarity.neg", "r").readlines())
-    negative_examples = [s.strip() for s in negative_examples]
+
+    # pos --> historici
+    # neg --> philosophici
+    hist_fp = os.path.expanduser('~/cltk_data/user_data/cnn/cnn_frames/historici.txt')
+    phil_fp = os.path.expanduser('~/cltk_data/user_data/cnn/cnn_frames/philosophici.txt')
+    historici_examples = list(open(hist_fp, "r").readlines())
+    historici_examples = [s.strip() for s in historici_examples]
+    philosophici_examples = list(open(phil_fp, "r").readlines())
+    philosophici_examples = [s.strip() for s in philosophici_examples]
     # Split by words
-    x_text = positive_examples + negative_examples
-    x_text = [clean_str(sent) for sent in x_text]
+    x_text = historici_examples + philosophici_examples
+    #x_text = [clean_str(sent) for sent in x_text]  # not nec 
+    x_text = [sent for sent in x_text]
     # Generate labels
-    positive_labels = [[0, 1] for _ in positive_examples]
-    negative_labels = [[1, 0] for _ in negative_examples]
-    y = np.concatenate([positive_labels, negative_labels], 0)
+    historici_labels = [[0, 1] for _ in historici_examples]
+    philosophici_labels = [[1, 0] for _ in philosophici_examples]
+    y = np.concatenate([historici_labels, philosophici_labels], 0)
     return [x_text, y]
 
 
